@@ -1,23 +1,47 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="ar" dir="rtl" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Investment Calculator - Compound Interest & Wealth Simulator</title>
-    <meta name="description" content="Calculate the future value of your wealth with compound interest. Live projections, interactive charts, and year-by-year schedules for monthly recurring and lump-sum investments." />
+    <title>حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة</title>
+    <meta name="title" content="حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة" />
+    <meta name="description" content="احسب العائد على استثماراتك ونمو ثروتك عبر الفائدة المركبة. خطط لأهدافك المالية بمحاكاة تفاعلية، رسوم بيانية دقيقة، وجداول نمو سنوية مفصلة." />
     <meta name="author" content="Ismaeel Moussa" />
     
+    <!-- Open Graph / WhatsApp / Facebook / LinkedIn Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="حاسبة الاستثمار" />
+    <meta property="og:title" content="حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة" />
+    <meta property="og:description" content="احسب العائد على استثماراتك ونمو ثروتك عبر الفائدة المركبة. خطط لأهدافك المالية بمحاكاة تفاعلية، رسوم بيانية دقيقة، وجداول نمو سنوية مفصلة." />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image:secure_url" content="/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="شعار حاسبة الاستثمار" />
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter / X Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة" />
+    <meta name="twitter:description" content="احسب العائد على استثماراتك ونمو ثروتك عبر الفائدة المركبة. خطط لأهدافك المالية بمحاكاة تفاعلية ورسوم بيانية دقيقة." />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
     <!-- PWA & Mobile Web App Meta Tags -->
-    <link id="app-manifest" rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#0f172a" />
+    <link id="app-manifest" rel="manifest" href="/manifest-ar.webmanifest" />
+    <meta id="meta-theme-color" name="theme-color" content="#f8fafc" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta id="apple-app-title" name="apple-mobile-web-app-title" content="Investment Calculator" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta id="apple-app-title" name="apple-mobile-web-app-title" content="حاسبة الاستثمار" />
+    
+    <!-- Inline Init: Defaults to Arabic and Light Mode without FOUC -->
     <script>
       (function() {
         try {
           var savedLang = localStorage.getItem('investment_calc_lang');
-          var isAr = savedLang === 'ar' || (!savedLang && (navigator.language || '').toLowerCase().startsWith('ar'));
+          var isEn = savedLang === 'en';
+          var isAr = !isEn; // Arabic is default
           var manifestEl = document.getElementById('app-manifest');
           var appleTitle = document.getElementById('apple-app-title');
           if (isAr) {
@@ -25,6 +49,24 @@
             document.documentElement.dir = 'rtl';
             if (manifestEl) manifestEl.setAttribute('href', '/manifest-ar.webmanifest');
             if (appleTitle) appleTitle.setAttribute('content', 'حاسبة الاستثمار');
+          } else {
+            document.documentElement.lang = 'en';
+            document.documentElement.dir = 'ltr';
+            if (manifestEl) manifestEl.setAttribute('href', '/manifest.webmanifest');
+            if (appleTitle) appleTitle.setAttribute('content', 'Investment Calculator');
+          }
+
+          var savedTheme = localStorage.getItem('investment_calc_theme');
+          var isDark = savedTheme === 'dark'; // Light mode is default
+          var themeColorMeta = document.getElementById('meta-theme-color');
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            if (themeColorMeta) themeColorMeta.setAttribute('content', '#080c14');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+            if (themeColorMeta) themeColorMeta.setAttribute('content', '#f8fafc');
           }
         } catch (e) {}
       })();
@@ -43,7 +85,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" />
     </noscript>
   </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-emerald-500 selection:text-white">
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen antialiased selection:bg-emerald-500 selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

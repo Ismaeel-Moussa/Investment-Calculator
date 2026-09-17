@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   // Localization & Currency State
   const [lang, setLang] = useState<Language>(() => {
     const saved = localStorage.getItem('investment_calc_lang');
-    return saved === 'ar' || saved === 'en' ? saved : 'en';
+    return saved === 'ar' || saved === 'en' ? saved : 'ar';
   });
 
   const [currency, setCurrency] = useState<CurrencyCode>(() => {
@@ -62,11 +62,11 @@ export const App: React.FC = () => {
       : 'USD';
   });
 
-  // Theme State (Dark / Light)
+  // Theme State (Dark / Light) - Defaults to light mode
   const [theme, setTheme] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem('investment_calc_theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'light';
   });
 
   const [mode, setMode] = useState<CalculationMode>('recurring');
@@ -74,17 +74,38 @@ export const App: React.FC = () => {
   const [lumpSumInputs, setLumpSumInputs] = useState<LumpSumInputs>(DEFAULT_LUMP_SUM);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
-  // Synchronize document direction, language, PWA manifest, and titles
+  // Synchronize document direction, language, meta tags, and PWA manifest
   useEffect(() => {
     const isAr = lang === 'ar';
     document.documentElement.lang = lang;
     document.documentElement.dir = isAr ? 'rtl' : 'ltr';
     localStorage.setItem('investment_calc_lang', lang);
 
+    const pageTitle = isAr
+      ? 'حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة'
+      : 'Investment Calculator - Compound Interest & Wealth Simulator';
+    const pageDescription = isAr
+      ? 'احسب العائد على استثماراتك ونمو ثروتك عبر الفائدة المركبة. خطط لأهدافك المالية بمحاكاة تفاعلية، رسوم بيانية دقيقة، وجداول نمو سنوية مفصلة.'
+      : 'Calculate the future value of your wealth with compound interest. Live projections, interactive charts, and year-by-year schedules for monthly recurring and lump-sum investments.';
+
     // Update document title
-    document.title = isAr
-      ? 'حاسبة الاستثمار - محاكي الأرباح المركبة'
-      : 'Investment Calculator - Compound Interest Simulator';
+    document.title = pageTitle;
+
+    // Update meta description
+    const metaDesc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', pageDescription);
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+    const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', pageDescription);
+
+    // Update Twitter tags
+    const twitterTitle = document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', pageTitle);
+    const twitterDesc = document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]');
+    if (twitterDesc) twitterDesc.setAttribute('content', pageDescription);
 
     // Synchronize PWA manifest href
     const manifestEl = document.getElementById('app-manifest') || document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
@@ -99,9 +120,10 @@ export const App: React.FC = () => {
     }
   }, [lang]);
 
-  // Synchronize document theme class
+  // Synchronize document theme class and mobile theme-color meta tag
   useEffect(() => {
-    if (theme === 'dark') {
+    const isDark = theme === 'dark';
+    if (isDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
     } else {
@@ -109,6 +131,11 @@ export const App: React.FC = () => {
       document.documentElement.classList.add('light');
     }
     localStorage.setItem('investment_calc_theme', theme);
+
+    const themeColorMeta = document.getElementById('meta-theme-color') || document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', isDark ? '#080c14' : '#f8fafc');
+    }
   }, [theme]);
 
   // Save currency changes
