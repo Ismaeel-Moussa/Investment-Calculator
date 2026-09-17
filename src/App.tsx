@@ -8,6 +8,8 @@ import { GrowthChart } from './components/GrowthChart';
 import { YearlyBreakdownTable } from './components/YearlyBreakdownTable';
 import { QuickPresets } from './components/QuickPresets';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import {
   CalculationMode,
   RecurringInputs,
@@ -447,6 +449,10 @@ export const App: React.FC = () => {
 
       {/* Mobile PWA Install Banner */}
       <PWAInstallPrompt t={t} />
+
+      {/* Vercel Web Analytics & Speed Insights */}
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 };
