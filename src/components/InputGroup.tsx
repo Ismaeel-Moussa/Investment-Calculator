@@ -128,42 +128,27 @@ export const InputGroup: React.FC<InputGroupProps> = ({
         />
       </div>
 
-      {/* Min / Max labels and quick preset pills */}
-      <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-0.5">
-        <span>
-          {prefix}
-          {min.toLocaleString()}
-          {suffix}
-        </span>
-
-        {/* Optional quick preset chips */}
-        {quickPresets && quickPresets.length > 0 && (
-          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
-            {quickPresets.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => onChange(preset)}
-                className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors border ${
-                  value === preset
-                    ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40 font-bold'
-                    : 'bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-slate-200 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80'
-                }`}
-              >
-                {prefix}
-                {preset.toLocaleString()}
-                {suffix}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <span>
-          {prefix}
-          {max.toLocaleString()}
-          {suffix}
-        </span>
-      </div>
+      {/* Quick preset buttons */}
+      {quickPresets && quickPresets.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          {quickPresets.map((preset) => (
+            <button
+              key={preset}
+              type="button"
+              onClick={() => onChange(preset)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border shadow-xs active:scale-95 ${
+                value === preset
+                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/50 ring-1 ring-emerald-500/30 font-bold'
+                  : 'bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border-slate-200 dark:border-slate-700/70 hover:bg-slate-50 dark:hover:bg-slate-700/80'
+              }`}
+            >
+              {prefix}
+              {preset.toLocaleString()}
+              {suffix}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { DollarSign, Percent, Calendar, Layers, Sparkles, TrendingUp } from 'lucide-react';
+import { DollarSign, Percent, Calendar, Layers, Sparkles } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { CalculatorTabs } from './components/CalculatorTabs';
 import { InputGroup } from './components/InputGroup';
@@ -19,14 +19,14 @@ import { calculateRecurringInvestment, calculateLumpSum } from './utils/finance'
 import { TRANSLATIONS } from './utils/i18n';
 
 const DEFAULT_RECURRING: RecurringInputs = {
-  monthlyDeposit: 50,
+  monthlyDeposit: 0,
   initialDeposit: 0,
   annualReturn: 10.0,
   years: 20,
 };
 
 const DEFAULT_LUMP_SUM: LumpSumInputs = {
-  initialPrincipal: 5000,
+  initialPrincipal: 0,
   annualReturn: 10.0,
   years: 20,
   compoundingFrequency: 'monthly',
@@ -101,14 +101,6 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    if (mode === 'recurring') {
-      setRecurringInputs(DEFAULT_RECURRING);
-    } else {
-      setLumpSumInputs(DEFAULT_LUMP_SUM);
-    }
-  };
-
   const toggleLanguage = () => {
     setLang((prev) => (prev === 'en' ? 'ar' : 'en'));
   };
@@ -174,7 +166,6 @@ export const App: React.FC = () => {
         theme={theme}
         onToggleTheme={toggleTheme}
         t={t}
-        onReset={handleReset}
         canInstallPWA={!!deferredPrompt}
         onInstallPWA={handleInstallClick}
       />
@@ -182,7 +173,7 @@ export const App: React.FC = () => {
       {/* Hero Welcome Banner */}
       <div className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/60 bg-gradient-to-b from-emerald-500/10 via-slate-50 to-slate-50 dark:from-emerald-950/20 dark:via-slate-950 dark:to-slate-950 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-emerald-500/5 blur-3xl pointer-events-none rounded-full" />
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-2">
               <Sparkles className="w-3.5 h-3.5" />
@@ -194,24 +185,6 @@ export const App: React.FC = () => {
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400 max-w-2xl">
               {t.heroDescription}
             </p>
-          </div>
-
-          {/* Quick Stat Pill */}
-          <div className="self-start md:self-auto px-4 py-2.5 rounded-2xl glass-panel-subtle flex items-center gap-3 shadow-sm dark:shadow-none">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <TrendingUp className="w-5 h-5 rtl:rotate-90" />
-            </div>
-            <div>
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                {t.growthMultiplier}
-              </div>
-              <div className="text-base font-bold text-slate-900 dark:text-white font-mono">
-                {calculationResult.multiplier.toFixed(2)}x{' '}
-                <span className="text-xs font-normal text-emerald-600 dark:text-emerald-400 font-sans">
-                  (+{calculationResult.returnPercentage.toFixed(0)}%)
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -246,7 +219,7 @@ export const App: React.FC = () => {
                       suffix={currSuffix}
                       icon={DollarSign}
                       tooltip={t.monthlyDepositTooltip}
-                      quickPresets={[50, 200, 500, 1000]}
+                      quickPresets={[50, 100, 200, 500, 1000]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>

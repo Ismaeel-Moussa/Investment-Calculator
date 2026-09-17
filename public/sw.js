@@ -1,5 +1,5 @@
 // Service Worker for Compound Investment Calculator PWA
-const CACHE_NAME = 'compound-calc-v1';
+const CACHE_NAME = 'compound-calc-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

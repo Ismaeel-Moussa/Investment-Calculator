@@ -27,11 +27,11 @@ export function formatCurrency(
     return `$${formattedNum}`;
   }
   if (currency === 'EUR') {
-    return lang === 'ar' ? `${formattedNum} €` : `€${formattedNum}`;
+    return lang === 'ar' ? `${formattedNum}\u00A0€` : `€${formattedNum}`;
   }
 
   // SAR, AED, KWD
-  return lang === 'ar' ? `${formattedNum} ${sym}` : `${sym} ${formattedNum}`;
+  return lang === 'ar' ? `${formattedNum}\u00A0${sym}` : `${sym}\u00A0${formattedNum}`;
 }
 
 /**
