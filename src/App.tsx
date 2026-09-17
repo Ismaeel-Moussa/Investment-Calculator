@@ -213,13 +213,12 @@ export const App: React.FC = () => {
                       label={t.monthlyDeposit}
                       value={recurringInputs.monthlyDeposit}
                       min={0}
-                      max={10000}
                       step={50}
                       prefix={currPrefix}
                       suffix={currSuffix}
                       icon={DollarSign}
                       tooltip={t.monthlyDepositTooltip}
-                      quickPresets={[50, 100, 200, 500, 1000]}
+                      quickPresets={[50, 100, 200, 500]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -233,13 +232,12 @@ export const App: React.FC = () => {
                       label={t.initialStartingPrincipal}
                       value={recurringInputs.initialDeposit}
                       min={0}
-                      max={100000}
                       step={500}
                       prefix={currPrefix}
                       suffix={currSuffix}
                       icon={Layers}
                       tooltip={t.initialPrincipalTooltip}
-                      quickPresets={[0, 1000, 5000, 20000]}
+                      quickPresets={[0, 1000, 5000]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -253,11 +251,11 @@ export const App: React.FC = () => {
                       label={t.expectedAnnualReturn}
                       value={recurringInputs.annualReturn}
                       min={0}
-                      max={30}
                       step={0.1}
                       suffix="%"
                       icon={Percent}
                       tooltip={t.expectedReturnTooltip}
+                      quickPresets={[5, 8, 10, 12]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -271,12 +269,12 @@ export const App: React.FC = () => {
                       label={t.investmentPeriod}
                       value={recurringInputs.years}
                       min={1}
-                      max={50}
+                      max={100}
                       step={1}
                       suffix={t.yearsSuffix}
                       icon={Calendar}
                       tooltip={t.investmentPeriodTooltip}
-                      quickPresets={[5, 10, 20, 30]}
+                      quickPresets={[15, 20, 25, 30, 35]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -291,14 +289,13 @@ export const App: React.FC = () => {
                       id="lump-principal"
                       label={t.lumpPrincipal}
                       value={lumpSumInputs.initialPrincipal}
-                      min={100}
-                      max={500000}
+                      min={0}
                       step={500}
                       prefix={currPrefix}
                       suffix={currSuffix}
                       icon={DollarSign}
                       tooltip={t.lumpPrincipalTooltip}
-                      quickPresets={[5000, 25000, 50000, 100000]}
+                      quickPresets={[0, 1000, 5000]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -312,11 +309,11 @@ export const App: React.FC = () => {
                       label={t.expectedAnnualReturn}
                       value={lumpSumInputs.annualReturn}
                       min={0}
-                      max={30}
                       step={0.1}
                       suffix="%"
                       icon={Percent}
                       tooltip={t.expectedReturnTooltip}
+                      quickPresets={[5, 8, 10, 12]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>
@@ -330,12 +327,12 @@ export const App: React.FC = () => {
                       label={t.investmentPeriod}
                       value={lumpSumInputs.years}
                       min={1}
-                      max={50}
+                      max={100}
                       step={1}
                       suffix={t.yearsSuffix}
                       icon={Calendar}
                       tooltip={t.investmentPeriodTooltip}
-                      quickPresets={[5, 10, 20, 30]}
+                      quickPresets={[15, 20, 25, 30, 35]}
                       lang={lang}
                       theme={theme}
                       onChange={(val) =>

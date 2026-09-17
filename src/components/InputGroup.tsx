@@ -6,8 +6,8 @@ interface InputGroupProps {
   id: string;
   label: string;
   value: number;
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   step?: number;
   prefix?: string;
   suffix?: string;
@@ -25,60 +25,114 @@ export const InputGroup: React.FC<InputGroupProps> = ({
   value,
   min,
   max,
-  step = 1,
   prefix,
   suffix,
   icon: Icon,
-  tooltip,
   quickPresets,
   lang = 'en',
-  theme = 'dark',
   onChange,
 }) => {
   const isRtl = lang === 'ar';
-  // Compute percentage for slider gradient track fill
-  const percentage = Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100));
+  const [localValue, setLocalValue] = React.useState<string>(
+    Number.isFinite(value) ? String(value) : '0'
+  );
+  const [isFocused, setIsFocused] = React.useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawVal = e.target.value;
-    if (rawVal === '') {
-      onChange(min);
+  // Sync external value when not focused
+  React.useEffect(() => {
+    if (!isFocused) {
+      setLocalValue(Number.isFinite(value) ? String(value) : '0');
+    }
+  }, [value, isFocused]);
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(true);
+    // If the value is 0, clear it so typing immediately sets the first digit
+    if (value === 0 || localValue === '0') {
+      setLocalValue('');
+    } else {
+      // Select all content so typing immediately overwrites the old number
+      const target = e.currentTarget;
+      target.select();
+      setTimeout(() => {
+        target.select();
+      }, 40);
+    }
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    if (localValue.trim() === '' || isNaN(parseFloat(localValue))) {
+      const fallback = min !== undefined && min > 0 ? min : 0;
+      setLocalValue(String(fallback));
+      onChange(fallback);
       return;
     }
+
+    const num = parseFloat(localValue);
+    // Don't restrict the user from entering large numbers! Only ensure it doesn't go below min (e.g. >= 0)
+    let validNum = min !== undefined ? Math.max(min, num) : Math.max(0, num);
+    if (max !== undefined) {
+      validNum = Math.min(max, validNum);
+    }
+    setLocalValue(String(validNum));
+    onChange(validNum);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawVal = e.target.value;
+
+    // Convert Arabic-Indic digits (٠-٩) to standard numerals
+    rawVal = rawVal.replace(/[٠-٩]/g, (d) => (d.charCodeAt(0) - 1632).toString());
+
+    // Allow only digits and at most one decimal point
+    if (!/^[0-9]*\.?[0-9]*$/.test(rawVal)) {
+      return;
+    }
+
+    // If empty, keep display empty for user typing and notify 0
+    if (rawVal === '') {
+      setLocalValue('');
+      onChange(0);
+      return;
+    }
+
+    // Strip leading zero if followed by another digit (e.g. '05' -> '5')
+    // but keep decimal forms like '0.' or '0.5'
+    if (rawVal.length > 1 && rawVal.startsWith('0') && !rawVal.startsWith('0.')) {
+      rawVal = rawVal.replace(/^0+(?=\d)/, '');
+    }
+
+    setLocalValue(rawVal);
+
     const num = parseFloat(rawVal);
     if (!isNaN(num)) {
       onChange(num);
     }
   };
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(parseFloat(e.target.value));
+  const handlePresetClick = (preset: number) => {
+    setLocalValue(String(preset));
+    onChange(preset);
   };
-
-  const unfilledTrack = theme === 'light' ? '#cbd5e1' : '#334155';
-  const sliderGradient = isRtl
-    ? `linear-gradient(to left, #10b981 0%, #10b981 ${percentage}%, ${unfilledTrack} ${percentage}%, ${unfilledTrack} 100%)`
-    : `linear-gradient(to right, #10b981 0%, #10b981 ${percentage}%, ${unfilledTrack} ${percentage}%, ${unfilledTrack} 100%)`;
 
   return (
     <div className="space-y-3 bg-slate-100/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/60 hover:border-slate-300 dark:hover:border-slate-700/60 transition-colors">
-      <div className="flex items-center justify-between gap-2">
-        <label htmlFor={`${id}-input`} className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+      <div className="flex items-center justify-between gap-3">
+        <label
+          htmlFor={`${id}-input`}
+          className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer select-none flex-1 min-w-0"
+        >
           {Icon && <Icon className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />}
-          <span>{label}</span>
-          {tooltip && (
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:inline" title={tooltip}>
-              ({tooltip})
-            </span>
-          )}
+          <span className="truncate">{label}</span>
         </label>
 
         {/* Numeric Input */}
-        <div className="relative flex items-center">
+        <div className="relative flex items-center shrink-0">
           {prefix && (
             <span
-              className={`absolute text-slate-500 dark:text-slate-400 font-medium text-xs pointer-events-none ${
-                isRtl ? 'right-2.5' : 'left-2.5'
+              className={`absolute text-slate-400 dark:text-slate-500 font-medium text-xs pointer-events-none z-10 ${
+                isRtl ? 'right-2' : 'left-2'
               }`}
             >
               {prefix}
@@ -86,22 +140,24 @@ export const InputGroup: React.FC<InputGroupProps> = ({
           )}
           <input
             id={`${id}-input`}
-            type="number"
-            min={min}
-            max={max}
-            step={step}
-            value={Number.isFinite(value) ? value : 0}
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            placeholder="0"
+            value={localValue}
             onChange={handleInputChange}
-            className={`w-28 sm:w-32 bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700 rounded-lg py-1.5 text-right font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm transition-all shadow-sm dark:shadow-none ${
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            className={`w-[90px] sm:w-28 bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700 rounded-lg py-1.5 font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm transition-all shadow-sm dark:shadow-none text-right ${
               isRtl
-                ? `${prefix ? 'pr-7' : 'pr-3'} ${suffix ? 'pl-7' : 'pl-3'}`
-                : `${prefix ? 'pl-7' : 'pl-3'} ${suffix ? 'pr-7' : 'pr-3'}`
+                ? `${prefix ? 'pr-5 sm:pr-6' : 'pr-2.5'} ${suffix ? 'pl-5 sm:pl-6' : 'pl-2.5'}`
+                : `${prefix ? 'pl-5 sm:pl-6' : 'pl-2.5'} ${suffix ? 'pr-5 sm:pr-6' : 'pr-2.5'}`
             }`}
           />
           {suffix && (
             <span
-              className={`absolute text-slate-500 dark:text-slate-400 font-medium text-xs pointer-events-none ${
-                isRtl ? 'left-2.5' : 'right-2.5'
+              className={`absolute text-slate-400 dark:text-slate-500 font-medium text-xs pointer-events-none z-10 ${
+                isRtl ? 'left-2' : 'right-2'
               }`}
             >
               {suffix}
@@ -110,33 +166,15 @@ export const InputGroup: React.FC<InputGroupProps> = ({
         </div>
       </div>
 
-      {/* Synchronized Slider with dynamic track gradient */}
-      <div className="relative flex items-center pt-1" dir={isRtl ? 'rtl' : 'ltr'}>
-        <input
-          id={`${id}-slider`}
-          aria-label={`${label} slider`}
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={handleSliderChange}
-          style={{
-            background: sliderGradient,
-          }}
-          className="w-full h-2 rounded-lg cursor-pointer transition-all"
-        />
-      </div>
-
       {/* Quick preset buttons */}
       {quickPresets && quickPresets.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 pt-1">
+        <div className="flex flex-wrap items-center gap-2 pt-0.5">
           {quickPresets.map((preset) => (
             <button
               key={preset}
               type="button"
-              onClick={() => onChange(preset)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border shadow-xs active:scale-95 ${
+              onClick={() => handlePresetClick(preset)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border shadow-xs active:scale-95 touch-manipulation ${
                 value === preset
                   ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/50 ring-1 ring-emerald-500/30 font-bold'
                   : 'bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border-slate-200 dark:border-slate-700/70 hover:bg-slate-50 dark:hover:bg-slate-700/80'

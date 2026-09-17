@@ -30,9 +30,10 @@ export function getPeriodsPerYear(frequency: CompoundingFrequency): number {
  */
 export function calculateRecurringInvestment(inputs: RecurringInputs): CalculationResult {
   const { monthlyDeposit, initialDeposit = 0, annualReturn, years } = inputs;
+  const safeYears = Math.min(100, Math.max(1, Math.round(years || 1)));
   const r = annualReturn / 100;
   const n = 12; // monthly compounding
-  const totalMonths = Math.round(years * 12);
+  const totalMonths = Math.round(safeYears * 12);
   const monthlyRate = r / n;
 
   const breakdown: YearlyBreakdownItem[] = [];
@@ -40,7 +41,7 @@ export function calculateRecurringInvestment(inputs: RecurringInputs): Calculati
   let totalInvestedSoFar = initialDeposit;
   let accumulatedInterest = 0;
 
-  for (let year = 1; year <= years; year++) {
+  for (let year = 1; year <= safeYears; year++) {
     const yearStartBalance = currentBalance;
     let yearContributions = 0;
     let yearInterestEarned = 0;
@@ -89,6 +90,7 @@ export function calculateRecurringInvestment(inputs: RecurringInputs): Calculati
  */
 export function calculateLumpSum(inputs: LumpSumInputs): CalculationResult {
   const { initialPrincipal, annualReturn, years, compoundingFrequency } = inputs;
+  const safeYears = Math.min(100, Math.max(1, Math.round(years || 1)));
   const r = annualReturn / 100;
   const n = getPeriodsPerYear(compoundingFrequency);
 
@@ -96,7 +98,7 @@ export function calculateLumpSum(inputs: LumpSumInputs): CalculationResult {
   let currentBalance = initialPrincipal;
   let accumulatedInterest = 0;
 
-  for (let year = 1; year <= years; year++) {
+  for (let year = 1; year <= safeYears; year++) {
     const yearStartBalance = currentBalance;
     
     // Balance at end of this year:

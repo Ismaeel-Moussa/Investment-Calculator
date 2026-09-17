@@ -21,14 +21,16 @@ export const CalculatorTabs: React.FC<CalculatorTabsProps> = ({ activeMode, onCh
           aria-selected={activeMode === 'recurring'}
           aria-controls="panel-recurring"
           onClick={() => onChange('recurring')}
-          className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2.5 sm:py-3 px-2 sm:px-3 rounded-xl font-medium transition-all duration-200 ${
             activeMode === 'recurring'
               ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-semibold'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-slate-800/50'
           }`}
         >
-          <Repeat className={`w-4 h-4 ${activeMode === 'recurring' ? 'text-emerald-100' : 'text-slate-400'}`} />
-          <span className="truncate">{t.recurringMode}</span>
+          <Repeat className={`w-4 h-4 shrink-0 ${activeMode === 'recurring' ? 'text-emerald-100' : 'text-slate-400'}`} />
+          <span className="text-xs sm:text-sm text-center leading-tight sm:leading-normal">
+            {t.recurringMode}
+          </span>
         </button>
 
         {/* Tab 2: Lump Sum */}
@@ -39,14 +41,16 @@ export const CalculatorTabs: React.FC<CalculatorTabsProps> = ({ activeMode, onCh
           aria-selected={activeMode === 'lumpsum'}
           aria-controls="panel-lumpsum"
           onClick={() => onChange('lumpsum')}
-          className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2.5 sm:py-3 px-2 sm:px-3 rounded-xl font-medium transition-all duration-200 ${
             activeMode === 'lumpsum'
               ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md font-semibold'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-slate-800/50'
           }`}
         >
-          <Wallet className={`w-4 h-4 ${activeMode === 'lumpsum' ? 'text-cyan-100' : 'text-slate-400'}`} />
-          <span className="truncate">{t.lumpSumMode}</span>
+          <Wallet className={`w-4 h-4 shrink-0 ${activeMode === 'lumpsum' ? 'text-cyan-100' : 'text-slate-400'}`} />
+          <span className="text-xs sm:text-sm text-center leading-tight sm:leading-normal">
+            {t.lumpSumMode}
+          </span>
         </button>
       </div>
     </div>
