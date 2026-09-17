@@ -178,7 +178,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
               onClick={() => handlePresetClick(preset)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border shadow-xs active:scale-95 touch-manipulation ${
                 value === preset
-                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/50 ring-1 ring-emerald-500/30 font-bold'
+                  ? 'bg-emerald-500/20 text-emerald-900 dark:text-emerald-200 border-emerald-500/50 ring-1 ring-emerald-500/30 font-bold'
                   : 'bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border-slate-200 dark:border-slate-700/70 hover:bg-slate-50 dark:hover:bg-slate-700/80'
               }`}
             >

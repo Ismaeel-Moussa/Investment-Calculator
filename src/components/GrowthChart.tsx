@@ -114,9 +114,9 @@ export const GrowthChart: React.FC<GrowthChartProps> = ({
       {/* Chart Header & Mode Toggle */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif] flex items-center gap-2">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif] flex items-center gap-2">
             {t.chartTitle}
-          </h3>
+          </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{t.chartSubtitle}</p>
         </div>
 

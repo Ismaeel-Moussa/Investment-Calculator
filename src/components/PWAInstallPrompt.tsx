@@ -60,13 +60,13 @@ export const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ t }) => {
     <div className="fixed bottom-4 left-4 right-4 z-50 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-emerald-500/30 rounded-2xl p-4 shadow-xl dark:shadow-2xl backdrop-blur-xl animate-fade-in transition-colors">
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-xl overflow-hidden shadow-glow-emerald border border-emerald-500/40 shrink-0 bg-slate-100 dark:bg-slate-950">
-          <img src="/icon-192.png" alt="App Icon" className="w-full h-full object-cover" />
+          <img src="/icon-192.png" alt="App Icon" width="48" height="48" loading="lazy" className="w-full h-full object-cover" />
         </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="text-sm font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif]">
+          <p className="text-sm font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif]">
             {t.pwaTitle}
-          </h4>
+          </p>
           <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
             {isIOS ? t.pwaDescriptionIos : t.pwaDescriptionOther}
           </p>

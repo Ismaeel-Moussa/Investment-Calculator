@@ -45,9 +45,9 @@ export const QuickPresets: React.FC<QuickPresetsProps> = ({ onSelectRate, curren
 
   return (
     <div className="space-y-3">
-      <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
         {t.benchmarksTitle}
-      </span>
+      </h3>
       <div className="grid grid-cols-2 gap-3">
         {presets.map((preset) => {
           const Icon = preset.icon;
@@ -72,7 +72,7 @@ export const QuickPresets: React.FC<QuickPresetsProps> = ({ onSelectRate, curren
                 <div
                   className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                     isSelected
-                      ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                      ? 'bg-emerald-500/25 text-emerald-800 dark:text-emerald-300'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                   }`}
                 >
@@ -85,7 +85,7 @@ export const QuickPresets: React.FC<QuickPresetsProps> = ({ onSelectRate, curren
                 <span
                   className={`text-lg font-extrabold font-mono ${
                     isSelected
-                      ? 'text-emerald-600 dark:text-emerald-300'
+                      ? 'text-emerald-800 dark:text-emerald-300'
                       : 'text-slate-900 dark:text-white'
                   }`}
                 >

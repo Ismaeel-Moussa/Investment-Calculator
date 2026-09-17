@@ -31,9 +31,9 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
             <TableIcon className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif]">
+            <h2 className="text-base font-bold text-slate-900 dark:text-white font-['Cairo',sans-serif]">
               {t.tableTitle}
-            </h3>
+            </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">{t.tableSubtitle}</p>
           </div>
         </div>
@@ -101,7 +101,7 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                   </th>
                   <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colStartingBalance}</th>
                   <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colAnnualDeposit}</th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
+                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
                     {t.colInterestEarned}
                   </th>
                   <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colTotalInterest}</th>
@@ -120,7 +120,7 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                     <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-700 dark:text-slate-300 whitespace-nowrap">
                       {formatCurrency(row.annualContributions, false, currency, lang)}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-emerald-600 dark:text-emerald-400 font-semibold whitespace-nowrap">
+                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-emerald-700 dark:text-emerald-400 font-semibold whitespace-nowrap">
                       +{formatCurrency(row.interestEarned, false, currency, lang)}
                     </td>
                     <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-600 dark:text-slate-400 whitespace-nowrap">
@@ -175,10 +175,10 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                 </div>
 
                 <div className="p-2 rounded-lg bg-emerald-500/5 dark:bg-emerald-950/20 border border-emerald-500/20">
-                  <span className="text-[10px] font-sans text-emerald-700 dark:text-emerald-400 block mb-0.5">
+                  <span className="text-[10px] font-sans text-emerald-800 dark:text-emerald-300 block mb-0.5">
                     {t.colInterestEarned}
                   </span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span className="text-emerald-800 dark:text-emerald-300 font-bold">
                     +{formatCurrency(row.interestEarned, false, currency, lang)}
                   </span>
                 </div>

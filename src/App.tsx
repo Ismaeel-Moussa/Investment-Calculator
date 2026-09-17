@@ -4,10 +4,23 @@ import { Navbar } from './components/Navbar';
 import { CalculatorTabs } from './components/CalculatorTabs';
 import { InputGroup } from './components/InputGroup';
 import { SummaryCard } from './components/SummaryCard';
-import { GrowthChart } from './components/GrowthChart';
 import { YearlyBreakdownTable } from './components/YearlyBreakdownTable';
 import { QuickPresets } from './components/QuickPresets';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+
+const GrowthChart = React.lazy(() =>
+  import('./components/GrowthChart').then((m) => ({ default: m.GrowthChart }))
+);
+
+const GrowthChartSkeleton: React.FC = () => (
+  <div className="glass-panel p-5 rounded-2xl animate-pulse">
+    <div className="flex justify-between items-center mb-6">
+      <div className="h-6 w-48 bg-slate-200 dark:bg-slate-800 rounded-md" />
+      <div className="h-8 w-24 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+    </div>
+    <div className="w-full h-72 sm:h-80 bg-slate-100/60 dark:bg-slate-900/40 rounded-xl" />
+  </div>
+);
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import {
@@ -217,16 +230,21 @@ export const App: React.FC = () => {
             <div className="glass-panel p-6 rounded-3xl space-y-6">
               {/* Tab Selector */}
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 block">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 block">
                   {t.calculationStrategy}
-                </label>
+                </h2>
                 <CalculatorTabs activeMode={mode} onChange={setMode} t={t} />
               </div>
 
               {/* Mode-Specific Input Fields */}
               <div className="space-y-4">
                 {mode === 'recurring' ? (
-                  <>
+                  <div
+                    id="panel-recurring"
+                    role="tabpanel"
+                    aria-labelledby="tab-recurring"
+                    className="space-y-4"
+                  >
                     {/* Monthly Deposit */}
                     <InputGroup
                       id="monthly-deposit"
@@ -301,9 +319,14 @@ export const App: React.FC = () => {
                         setRecurringInputs((prev) => ({ ...prev, years: val }))
                       }
                     />
-                  </>
+                  </div>
                 ) : (
-                  <>
+                  <div
+                    id="panel-lumpsum"
+                    role="tabpanel"
+                    aria-labelledby="tab-lumpsum"
+                    className="space-y-4"
+                  >
                     {/* Initial Principal for Lump Sum */}
                     <InputGroup
                       id="lump-principal"
@@ -390,7 +413,7 @@ export const App: React.FC = () => {
                         )}
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
@@ -420,13 +443,15 @@ export const App: React.FC = () => {
             />
 
             {/* Interactive Growth Visual Chart */}
-            <GrowthChart
-              data={calculationResult.breakdown}
-              currency={currency}
-              lang={lang}
-              theme={theme}
-              t={t}
-            />
+            <React.Suspense fallback={<GrowthChartSkeleton />}>
+              <GrowthChart
+                data={calculationResult.breakdown}
+                currency={currency}
+                lang={lang}
+                theme={theme}
+                t={t}
+              />
+            </React.Suspense>
 
             {/* Year-by-Year Breakdown Table */}
             <YearlyBreakdownTable

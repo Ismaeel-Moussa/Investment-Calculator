@@ -53,7 +53,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ result, currency, lang
             </div>
           </div>
           <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight font-['Cairo',sans-serif]">
+            <div className="text-2xl sm:text-3xl font-bold text-emerald-700 dark:text-emerald-400 tracking-tight font-['Cairo',sans-serif]">
               +{formatCurrency(totalInterest, false, currency, lang)}
             </div>
             <div className="mt-1 flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-400/90 font-medium">
@@ -104,7 +104,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ result, currency, lang
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 inline-block" />
             <span>
               {t.interestGainsRatio}:{' '}
-              <strong className="text-emerald-600 dark:text-emerald-400">{interestRatio.toFixed(1)}%</strong>
+              <strong className="text-emerald-700 dark:text-emerald-400">{interestRatio.toFixed(1)}%</strong>
             </span>
           </div>
         </div>
