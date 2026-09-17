@@ -108,10 +108,15 @@ export interface Translations {
 
   // Footer & PWA
   footerTitle: string;
-  footerSubtitle: string;
+  footerDevelopedBy: string;
+  developerName: string;
+  footerRights: string;
+  contactLinkedIn: string;
+  contactEmail: string;
   pwaTitle: string;
   pwaDescriptionIos: string;
   pwaDescriptionOther: string;
   pwaInstallNow: string;
   pwaMaybeLater: string;
 }
+

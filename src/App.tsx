@@ -7,6 +7,7 @@ import { SummaryCard } from './components/SummaryCard';
 import { YearlyBreakdownTable } from './components/YearlyBreakdownTable';
 import { QuickPresets } from './components/QuickPresets';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import { Footer } from './components/Footer';
 
 const GrowthChart = React.lazy(() =>
   import('./components/GrowthChart').then((m) => ({ default: m.GrowthChart }))
@@ -465,12 +466,7 @@ export const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200 dark:border-slate-800/60 py-6 text-center text-xs text-slate-500 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>{t.footerTitle}</span>
-          <span>{t.footerSubtitle}</span>
-        </div>
-      </footer>
+      <Footer t={t} />
 
       {/* Mobile PWA Install Banner */}
       <PWAInstallPrompt t={t} />
