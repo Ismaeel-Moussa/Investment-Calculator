@@ -1,5 +1,5 @@
 import React from 'react';
-import { PiggyBank, TrendingUp, Landmark, ArrowUpRight } from 'lucide-react';
+import { Wallet, TrendingUp, Landmark, ArrowUpRight } from 'lucide-react';
 import { CalculationResult } from '../types/calculator';
 import { CurrencyCode, Language, Translations } from '../types/i18n';
 import { formatCurrency, formatPercent } from '../utils/formatters';
@@ -28,7 +28,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ result, currency, lang
               {t.totalInvested}
             </span>
             <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-              <PiggyBank className="w-4 h-4" />
+              <Wallet className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
@@ -57,7 +57,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ result, currency, lang
               +{formatCurrency(totalInterest, false, currency, lang)}
             </div>
             <div className="mt-1 flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-400/90 font-medium">
-              <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-90" />
+              <ArrowUpRight className="w-3.5 h-3.5" />
               <span>
                 {formatPercent(returnPercentage, 1, lang)} {t.totalReturnSub}
               </span>
