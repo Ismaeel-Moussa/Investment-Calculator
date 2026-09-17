@@ -1,14 +1,14 @@
 {
-  "name": "Investment Calculator",
-  "short_name": "Investment Calculator",
-  "description": "Modern financial growth & compound interest calculator with live projections, charts, and breakdown tables.",
+  "name": "حاسبة الاستثمار",
+  "short_name": "حاسبة الاستثمار",
+  "description": "حاسبة ومحاكي الاستثمار وعوائد الفائدة المركبة مع رسوم بيانية وجداول نمو سنوية متقدمة.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#090d16",
   "theme_color": "#0f172a",
-  "lang": "en",
-  "dir": "ltr",
+  "lang": "ar",
+  "dir": "rtl",
   "icons": [
     {
       "src": "/icon-192.png",

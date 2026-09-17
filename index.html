@@ -7,11 +7,27 @@
     <meta name="description" content="Calculate the future value of your wealth with compound interest. Live projections, interactive charts, and year-by-year schedules for monthly recurring and lump-sum investments." />
     
     <!-- PWA & Mobile Web App Meta Tags -->
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link id="app-manifest" rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#0f172a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Investment Calculator" />
+    <meta id="apple-app-title" name="apple-mobile-web-app-title" content="Investment Calculator" />
+    <script>
+      (function() {
+        try {
+          var savedLang = localStorage.getItem('investment_calc_lang');
+          var isAr = savedLang === 'ar' || (!savedLang && (navigator.language || '').toLowerCase().startsWith('ar'));
+          var manifestEl = document.getElementById('app-manifest');
+          var appleTitle = document.getElementById('apple-app-title');
+          if (isAr) {
+            document.documentElement.lang = 'ar';
+            document.documentElement.dir = 'rtl';
+            if (manifestEl) manifestEl.setAttribute('href', '/manifest-ar.webmanifest');
+            if (appleTitle) appleTitle.setAttribute('content', 'حاسبة الاستثمار');
+          }
+        } catch (e) {}
+      })();
+    </script>
     
     <!-- Icons -->
     <link rel="icon" type="image/png" href="/favicon.png" />

@@ -68,15 +68,15 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     monthlyDeposit: 'Monthly Deposit',
     monthlyDepositTooltip: 'Recurring monthly contribution',
-    initialStartingPrincipal: 'Initial Starting Principal',
+    initialStartingPrincipal: 'Initial Principal',
     initialPrincipalTooltip: 'Amount you have right now',
-    expectedAnnualReturn: 'Expected Annual Return',
+    expectedAnnualReturn: 'Annual Return',
     expectedReturnTooltip: 'Annual compound rate of return',
     investmentPeriod: 'Investment Period',
     investmentPeriodTooltip: 'Number of years invested',
     yearsSuffix: ' yrs',
 
-    lumpPrincipal: 'Initial Principal Amount',
+    lumpPrincipal: 'Initial Principal',
     lumpPrincipalTooltip: 'One-time upfront investment',
     compoundingFrequency: 'Compounding Frequency',
     frequencies: {
@@ -160,17 +160,17 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     recurringMode: 'استثمار شهري دوري',
     lumpSumMode: 'مبلغ إجمالي دفعة واحدة',
 
-    monthlyDeposit: 'الإيداع الشهري المستمر',
+    monthlyDeposit: 'الإيداع الشهري',
     monthlyDepositTooltip: 'المبلغ المودع شهرياً بانتظام',
-    initialStartingPrincipal: 'رأس المال الأولي المستثمر',
+    initialStartingPrincipal: 'رأس المال الأولي',
     initialPrincipalTooltip: 'المبلغ المتاح لديك للبدء به الآن',
-    expectedAnnualReturn: 'معدل العائد السنوي المتوقع',
+    expectedAnnualReturn: 'معدل العائد السنوي',
     expectedReturnTooltip: 'نسبة النمو أو الربح السنوي المركب',
-    investmentPeriod: 'فترة الاستثمار الزمنية',
+    investmentPeriod: 'فترة الاستثمار',
     investmentPeriodTooltip: 'عدد سنوات استمرار الاستثمار',
     yearsSuffix: ' سنة',
 
-    lumpPrincipal: 'مبلغ رأس المال الإجمالي',
+    lumpPrincipal: 'رأس المال الأولي',
     lumpPrincipalTooltip: 'استثمار لمرة واحدة مقدماً',
     compoundingFrequency: 'تكرار احتساب العائد المركب',
     frequencies: {

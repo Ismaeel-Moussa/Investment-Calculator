@@ -58,11 +58,29 @@ export const App: React.FC = () => {
   const [lumpSumInputs, setLumpSumInputs] = useState<LumpSumInputs>(DEFAULT_LUMP_SUM);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
-  // Synchronize document direction and language attributes
+  // Synchronize document direction, language, PWA manifest, and titles
   useEffect(() => {
+    const isAr = lang === 'ar';
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
     localStorage.setItem('investment_calc_lang', lang);
+
+    // Update document title
+    document.title = isAr
+      ? 'حاسبة الاستثمار - محاكي الأرباح المركبة'
+      : 'Investment Calculator - Compound Interest Simulator';
+
+    // Synchronize PWA manifest href
+    const manifestEl = document.getElementById('app-manifest') || document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+    if (manifestEl) {
+      manifestEl.setAttribute('href', isAr ? '/manifest-ar.webmanifest' : '/manifest.webmanifest');
+    }
+
+    // Synchronize iOS home screen title
+    const appleTitleEl = document.getElementById('apple-app-title') || document.querySelector<HTMLMetaElement>('meta[name="apple-mobile-web-app-title"]');
+    if (appleTitleEl) {
+      appleTitleEl.setAttribute('content', isAr ? 'حاسبة الاستثمار' : 'Investment Calculator');
+    }
   }, [lang]);
 
   // Synchronize document theme class
