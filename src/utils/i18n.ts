@@ -60,7 +60,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     heroTitle: 'Investment & Compound Interest Calculator',
     heroDescription:
       'Model your financial independence. See how regular contributions and compound returns turn modest savings into significant wealth over time.',
+    heroGuideBtn: 'Beginner’s Investment Guide',
     growthMultiplier: 'Growth Multiplier',
+
 
     calculationStrategy: 'Calculation Strategy',
     recurringMode: 'Monthly Recurring',
@@ -69,7 +71,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     // Goal Mode Inputs & Display
     goalBadge: 'Smart Goal Plan',
-    targetGoalAmount: 'Target Wealth Goal',
+    targetGoalAmount: 'Target Goal',
 
     targetGoalTooltip: 'The total target amount you aim to achieve',
     requiredMonthlyDeposit: 'Required Monthly Deposit',
@@ -84,9 +86,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     initialPrincipalTooltip: 'Amount you have right now to start with',
     expectedAnnualReturn: 'Annual Return',
     expectedReturnTooltip: 'Annual compound rate of return',
-    investmentPeriod: 'Investment Horizon',
+    investmentPeriod: 'Investment Period',
     investmentPeriodTooltip: 'Number of years invested',
     yearsSuffix: ' yrs',
+
 
     lumpPrincipal: 'Initial Principal',
     lumpPrincipalTooltip: 'One-time upfront investment',
@@ -141,15 +144,19 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Beginner's Guide Roadmap
     beginnerGuideTitle: 'Beginner’s Guide: How to Start Investing for Everyday People',
     beginnerGuideSubtitle: 'Simple, practical steps to build financial peace of mind without financial jargon',
+    guideShow: 'View Guide',
+    guideHide: 'Hide Guide',
     step1Title: '1. Build an Emergency Fund First',
+
     step1Desc: 'Before investing, set aside 3 to 6 months of basic living expenses in an easily accessible bank account for true emergencies.',
     step2Title: '2. Pay Off High-Cost Debts',
     step2Desc: 'Clear credit card debt and high-interest personal loans first, as their interest charges exceed typical investment gains.',
     step3Title: '3. Start Small & Invest Monthly (DCA)',
     step3Desc: 'Don’t wait for a huge lump sum. Investing a modest amount every month (Dollar-Cost Averaging) builds serious wealth over time.',
     step4Title: '4. Diversify with Low-Cost Index Funds (ETFs)',
-    step4Desc: 'Avoid gambling on a single hot stock. Broad index funds and Sharia-compliant ETFs spread your risk across hundreds of companies.',
+    step4Desc: 'Avoid gambling on a single hot stock. Diversify through index funds and Sharia-compliant ETFs (like SPUS and SPWO) that spread your risk across hundreds of solid companies.',
     step5Title: '5. Stay Patient & Ignore Daily Market Noise',
+
     step5Desc: 'Investing is a 10–20 year marathon. Market ups and downs are normal; emotional discipline and consistency are the secrets to compounding.',
 
     chartTitle: 'Portfolio Growth Projection',
@@ -205,16 +212,18 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     heroTitle: 'حاسبة الاستثمار والأرباح المركبة',
     heroDescription:
       'خطط لمستقبلك المالي واستقلالك. اكتشف كيف تحول المساهمات الشهرية البسيطة والأرباح المركبة مدخراتك إلى ثروة حقيقية مع مرور الوقت.',
+    heroGuideBtn: 'دليل الاستثمار للمبتدئ',
     growthMultiplier: 'مضاعف النمو',
+
 
     calculationStrategy: 'استراتيجية الاستثمار',
     recurringMode: 'استثمار شهري دوري',
     lumpSumMode: 'مبلغ إجمالي دفعة واحدة',
-    goalMode: 'تحقيق هدف مالي 🎯',
+    goalMode: 'تحقيق هدف مالي',
 
     // Goal Mode Inputs & Display
     goalBadge: 'خطة الهدف المالي',
-    targetGoalAmount: 'المبلغ المستهدف الوصول إليه',
+    targetGoalAmount: 'المبلغ المستهدف',
 
     targetGoalTooltip: 'المبلغ الإجمالي أو الثروة التي تطمح للوصول إليها',
     requiredMonthlyDeposit: 'الإيداع الشهري المطلوب',
@@ -225,13 +234,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     monthlyDeposit: 'الإيداع الشهري',
     monthlyDepositTooltip: 'المبلغ المودع شهرياً بانتظام',
-    initialStartingPrincipal: 'رأس المال المتاح حالياً',
+    initialStartingPrincipal: 'رأس المال الحالي',
     initialPrincipalTooltip: 'المبلغ المتوفر لديك للبدء به اليوم',
-    expectedAnnualReturn: 'معدل العائد السنوي المتوقع',
+    expectedAnnualReturn: 'العائد السنوي',
     expectedReturnTooltip: 'نسبة النمو أو الربح السنوي المركب',
-    investmentPeriod: 'المدة الزمنية للاستثمار',
+    investmentPeriod: 'مدة الاستثمار',
     investmentPeriodTooltip: 'عدد سنوات استمرار الاستثمار',
     yearsSuffix: ' سنة',
+
 
     lumpPrincipal: 'رأس المال الأولي',
     lumpPrincipalTooltip: 'استثمار لمرة واحدة مقدماً',
@@ -286,15 +296,19 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Beginner's Guide Roadmap
     beginnerGuideTitle: 'دليل المبتدئ السريع: كيف تبدأ الاستثمار كشخص عادي؟',
     beginnerGuideSubtitle: 'خمس خطوات واقعية وبسيطة لكل شخص يريد بناء أمانه المالي دون تعقيد',
+    guideShow: 'عرض الدليل',
+    guideHide: 'إخفاء الدليل',
     step1Title: '1. صندوق الطوارئ أولاً وقبل كل شيء',
+
     step1Desc: 'قبل أن تستثمر فلساً واحداً، احتفظ بمصاريف 3 إلى 6 أشهر في حساب جارٍ أو حساب مرابحة آمن وسهل السحب للطوارئ فقط.',
     step2Title: '2. سدد ديونك الاستهلاكية وبطاقات الائتمان',
     step2Desc: 'تخلص أولاً من أي ديون ذات فوائد عالية؛ لأن تكلفة الديون تفوق أي عائد استثماري قد تحققه في أي سوق.',
     step3Title: '3. ابدأ بمبالغ بسيطة واستثمر شهرياً بانتظام',
     step3Desc: 'لا تنتظر توفر مبالغ طائلة للبدء! استقطاع 200 أو 500 دولار شهرياً مع الاستمرار لسنوات يبني ثروة تفوق توقعاتك.',
     step4Title: '4. نوّع عبر صناديق المؤشرات (ETFs)',
-    step4Desc: 'تجنب وضع مدخراتك كلها في سهم شركة واحدة؛ بل اشترِ وثائق في صناديق المؤشرات أو الصناديق المتوافقة مع الشريعة التي توزع استثمارك على مئات الشركات الناجحة.',
+    step4Desc: 'تجنب وضع مدخراتك كلها في سهم شركة واحدة؛ بل نوّع عبر صناديق المؤشرات (ETFs) مثل الصناديق المتوافقة مع الشريعة الإسلامية (مثل SPUS و SPWO) التي توزع استثمارك بأمان على مئات الشركات الناجحة.',
     step5Title: '5. الصبر وتجاهل الهبوط اللحظي للسوق',
+
     step5Desc: 'الاستثمار الحقيقي ماراثون طويل الأمد (10 إلى 20 سنة). صعود وهبوط الأسواق أمر طبيعي ومؤقت؛ الاستمرارية هي السر الحقيقي للأثرياء.',
 
     chartTitle: 'توقعات نمو المحفظة الاستثمارية',

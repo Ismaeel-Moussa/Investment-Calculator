@@ -19,8 +19,9 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
-  const INITIAL_ROWS = 10;
+  const INITIAL_ROWS = 5;
   const displayedRows = isExpanded ? data : data.slice(0, INITIAL_ROWS);
+  const remainingRows = Math.max(0, data.length - INITIAL_ROWS);
 
   const hasInflation = data.some((item) => item.realEndingBalance !== undefined);
 
@@ -95,21 +96,30 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[620px] text-left rtl:text-right text-sm">
+            <table className="w-full min-w-[580px] sm:min-w-[620px] table-fixed text-sm">
+              <colgroup>
+                <col className="w-20 sm:w-24" />
+                <col className={hasInflation ? "w-[15%]" : "w-[18%]"} />
+                <col className={hasInflation ? "w-[15%]" : "w-[18%]"} />
+                <col className={hasInflation ? "w-[15%]" : "w-[18%]"} />
+                <col className={hasInflation ? "w-[15%]" : "w-[18%]"} />
+                <col className={hasInflation ? "w-[17%]" : "w-[20%]"} />
+                {hasInflation && <col className="w-[18%]" />}
+              </colgroup>
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/60 text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  <th className="py-3 px-3 sm:px-4 font-semibold whitespace-nowrap sticky rtl:right-0 ltr:left-0 z-10 bg-slate-100 dark:bg-slate-900 shadow-[inset_-1px_0_0_rgba(226,232,240,0.9)] dark:shadow-[inset_-1px_0_0_rgba(51,65,85,0.8)] rtl:shadow-[inset_1px_0_0_rgba(226,232,240,0.9)] rtl:dark:shadow-[inset_1px_0_0_rgba(51,65,85,0.8)]">
+                  <th className="w-20 sm:w-24 py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left whitespace-nowrap sticky rtl:right-0 ltr:left-0 z-10 bg-slate-100 dark:bg-slate-900 shadow-[inset_-1px_0_0_rgba(226,232,240,0.9)] dark:shadow-[inset_-1px_0_0_rgba(51,65,85,0.8)] rtl:shadow-[inset_1px_0_0_rgba(226,232,240,0.9)] rtl:dark:shadow-[inset_1px_0_0_rgba(51,65,85,0.8)]">
                     {t.colYear}
                   </th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colStartingBalance}</th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colAnnualDeposit}</th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
+                  <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left whitespace-nowrap">{t.colStartingBalance}</th>
+                  <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left whitespace-nowrap">{t.colAnnualDeposit}</th>
+                  <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
                     {t.colInterestEarned}
                   </th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colTotalInterest}</th>
-                  <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-slate-900 dark:text-white whitespace-nowrap">{t.colEndingBalance}</th>
+                  <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left whitespace-nowrap">{t.colTotalInterest}</th>
+                  <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left text-slate-900 dark:text-white whitespace-nowrap">{t.colEndingBalance}</th>
                   {hasInflation && (
-                    <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-amber-700 dark:text-amber-400 whitespace-nowrap">
+                    <th className="py-2.5 px-2.5 sm:px-3 font-semibold text-start rtl:text-right ltr:text-left text-amber-700 dark:text-amber-400 whitespace-nowrap">
                       {t.colRealBalance}
                     </th>
                   )}
@@ -118,26 +128,26 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
               <tbody className="divide-y divide-slate-200/80 dark:divide-slate-800/40 font-mono text-xs">
                 {displayedRows.map((row) => (
                   <tr key={row.year} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 font-semibold text-slate-800 dark:text-slate-200 font-sans whitespace-nowrap sticky rtl:right-0 ltr:left-0 z-10 bg-white dark:bg-slate-950 group-hover:bg-slate-50 dark:group-hover:bg-slate-900/90 shadow-[inset_-1px_0_0_rgba(226,232,240,0.9)] dark:shadow-[inset_-1px_0_0_rgba(51,65,85,0.8)] rtl:shadow-[inset_1px_0_0_rgba(226,232,240,0.9)] rtl:dark:shadow-[inset_1px_0_0_rgba(51,65,85,0.8)]">
+                    <td className="w-20 sm:w-24 py-2 sm:py-2.5 px-2.5 sm:px-3 font-semibold text-slate-800 dark:text-slate-200 font-sans text-start rtl:text-right ltr:text-left whitespace-nowrap sticky rtl:right-0 ltr:left-0 z-10 bg-white dark:bg-slate-950 group-hover:bg-slate-50 dark:group-hover:bg-slate-900/90 shadow-[inset_-1px_0_0_rgba(226,232,240,0.9)] dark:shadow-[inset_-1px_0_0_rgba(51,65,85,0.8)] rtl:shadow-[inset_1px_0_0_rgba(226,232,240,0.9)] rtl:dark:shadow-[inset_1px_0_0_rgba(51,65,85,0.8)]">
                       {t.yearRowPrefix} {row.year}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-600 dark:text-slate-400 whitespace-nowrap">
+                    <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-slate-600 dark:text-slate-400 whitespace-nowrap">
                       {formatCurrency(row.startingBalance, false, currency, lang)}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                    <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-slate-700 dark:text-slate-300 whitespace-nowrap">
                       {formatCurrency(row.annualContributions, false, currency, lang)}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-emerald-700 dark:text-emerald-400 font-semibold whitespace-nowrap">
+                    <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-emerald-700 dark:text-emerald-400 font-semibold whitespace-nowrap">
                       +{formatCurrency(row.interestEarned, false, currency, lang)}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-600 dark:text-slate-400 whitespace-nowrap">
+                    <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-slate-600 dark:text-slate-400 whitespace-nowrap">
                       {formatCurrency(row.totalInterest, false, currency, lang)}
                     </td>
-                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-900 dark:text-white font-semibold whitespace-nowrap">
+                    <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-slate-900 dark:text-white font-semibold whitespace-nowrap">
                       {formatCurrency(row.endingBalance, false, currency, lang)}
                     </td>
                     {hasInflation && (
-                      <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-amber-700 dark:text-amber-400 font-semibold whitespace-nowrap">
+                      <td className="py-2 sm:py-2.5 px-2.5 sm:px-3 text-start rtl:text-right ltr:text-left text-amber-700 dark:text-amber-400 font-semibold whitespace-nowrap">
                         {formatCurrency(row.realEndingBalance ?? row.endingBalance, false, currency, lang)}
                       </td>
                     )}
@@ -233,8 +243,8 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
           >
             <span>
               {isExpanded
-                ? `${t.showLess} (${INITIAL_ROWS} ${t.moreRowsSuffix})`
-                : `${t.viewAll} (${data.length} ${t.moreRowsSuffix})`}
+                ? t.showLess
+                : `${t.viewAll} (${remainingRows} ${t.moreRowsSuffix})`}
             </span>
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>

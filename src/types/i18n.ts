@@ -30,7 +30,9 @@ export interface Translations {
   heroBadge: string;
   heroTitle: string;
   heroDescription: string;
+  heroGuideBtn: string;
   growthMultiplier: string;
+
 
   // Strategy Tabs
   calculationStrategy: string;
@@ -117,6 +119,8 @@ export interface Translations {
   // Beginner's Guide Roadmap
   beginnerGuideTitle: string;
   beginnerGuideSubtitle: string;
+  guideShow: string;
+  guideHide: string;
   step1Title: string;
   step1Desc: string;
   step2Title: string;
@@ -127,6 +131,7 @@ export interface Translations {
   step4Desc: string;
   step5Title: string;
   step5Desc: string;
+
 
   // Growth Chart
   chartTitle: string;

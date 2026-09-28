@@ -14,10 +14,21 @@ import { Translations } from '../types/i18n';
 
 interface BeginnerGuideProps {
   t: Translations;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-export const BeginnerGuide: React.FC<BeginnerGuideProps> = ({ t }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const BeginnerGuide: React.FC<BeginnerGuideProps> = ({ t, isOpen: controlledIsOpen, onToggle }) => {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+
+  const handleToggle = () => {
+    if (onToggle) {
+      onToggle();
+    } else {
+      setInternalIsOpen(!internalIsOpen);
+    }
+  };
 
   const steps = [
     {
@@ -58,11 +69,15 @@ export const BeginnerGuide: React.FC<BeginnerGuideProps> = ({ t }) => {
   ];
 
   return (
-    <div className="glass-panel rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden transition-all duration-300">
+    <div
+      id="beginner-guide"
+      className="glass-panel rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden transition-all duration-300 scroll-mt-6"
+    >
       {/* Header / Click to Expand */}
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
+
         className="w-full p-5 text-left rtl:text-right flex items-center justify-between gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-900/40 transition-colors"
       >
         <div className="flex items-center gap-3">
@@ -81,7 +96,7 @@ export const BeginnerGuide: React.FC<BeginnerGuideProps> = ({ t }) => {
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hidden sm:inline">
-            {isOpen ? t.showLess : t.viewAll}
+            {isOpen ? t.guideHide : t.guideShow}
           </span>
           <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
             {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, Globe, ChevronDown, Check, Sun, Moon } from 'lucide-react';
+import { Globe, ChevronDown, Check, Sun, Moon } from 'lucide-react';
 import { CurrencyCode, Language, ThemeMode, Translations } from '../types/i18n';
 import { CURRENCIES } from '../utils/i18n';
 
@@ -11,8 +11,6 @@ interface NavbarProps {
   theme: ThemeMode;
   onToggleTheme: () => void;
   t: Translations;
-  canInstallPWA: boolean;
-  onInstallPWA: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -23,9 +21,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   theme,
   onToggleTheme,
   t,
-  canInstallPWA,
-  onInstallPWA,
 }) => {
+
   const [currencyMenuOpen, setCurrencyMenuOpen] = useState(false);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
 
@@ -145,21 +142,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Globe className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{t.switchLanguage}</span>
           </button>
-
-          {/* PWA Install Button */}
-          {canInstallPWA && (
-            <button
-              onClick={onInstallPWA}
-              id="install-pwa-btn"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-glow-emerald transition-all active:scale-95"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{t.installApp}</span>
-            </button>
-          )}
-
         </div>
       </div>
     </header>
+
   );
 };
