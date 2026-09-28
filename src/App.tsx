@@ -1,11 +1,15 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { DollarSign, Percent, Calendar, Layers, Sparkles } from 'lucide-react';
+import { DollarSign, Percent, Calendar, Layers, Sparkles, Target } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { CalculatorTabs } from './components/CalculatorTabs';
 import { InputGroup } from './components/InputGroup';
 import { SummaryCard } from './components/SummaryCard';
 import { YearlyBreakdownTable } from './components/YearlyBreakdownTable';
 import { QuickPresets } from './components/QuickPresets';
+import { GoalHighlightBanner } from './components/GoalHighlightBanner';
+import { InvestingVsCashCard } from './components/InvestingVsCashCard';
+import { RuleOf72Card } from './components/RuleOf72Card';
+import { BeginnerGuide } from './components/BeginnerGuide';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { Footer } from './components/Footer';
 
@@ -28,9 +32,10 @@ import {
   CalculationMode,
   RecurringInputs,
   LumpSumInputs,
+  GoalInputs,
 } from './types/calculator';
 import { CurrencyCode, Language, ThemeMode } from './types/i18n';
-import { calculateRecurringInvestment, calculateLumpSum } from './utils/finance';
+import { calculateRecurringInvestment, calculateLumpSum, calculateGoalInvestment } from './utils/finance';
 import { TRANSLATIONS } from './utils/i18n';
 
 const DEFAULT_RECURRING: RecurringInputs = {
@@ -45,6 +50,13 @@ const DEFAULT_LUMP_SUM: LumpSumInputs = {
   annualReturn: 10.0,
   years: 20,
   compoundingFrequency: 'annually',
+};
+
+const DEFAULT_GOAL: GoalInputs = {
+  targetAmount: 0,
+  initialDeposit: 0,
+  annualReturn: 10.0,
+  years: 15,
 };
 
 export const App: React.FC = () => {
@@ -71,7 +83,10 @@ export const App: React.FC = () => {
   const [mode, setMode] = useState<CalculationMode>('recurring');
   const [recurringInputs, setRecurringInputs] = useState<RecurringInputs>(DEFAULT_RECURRING);
   const [lumpSumInputs, setLumpSumInputs] = useState<LumpSumInputs>(DEFAULT_LUMP_SUM);
+  const [goalInputs, setGoalInputs] = useState<GoalInputs>(DEFAULT_GOAL);
+  const [adjustForInflation, setAdjustForInflation] = useState<boolean>(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const inflationRate = 3.0; // 3% standard inflation benchmark
 
   // Synchronize document direction, language, meta tags, and PWA manifest
   useEffect(() => {
@@ -199,19 +214,32 @@ export const App: React.FC = () => {
 
   // Real-time calculation memoized
   const calculationResult = useMemo(() => {
+    const currentInflation = adjustForInflation ? inflationRate : 0;
     if (mode === 'recurring') {
-      return calculateRecurringInvestment(recurringInputs);
+      return calculateRecurringInvestment(recurringInputs, currentInflation);
+    } else if (mode === 'lumpsum') {
+      return calculateLumpSum(lumpSumInputs, currentInflation);
     } else {
-      return calculateLumpSum(lumpSumInputs);
+      return calculateGoalInvestment(goalInputs, currentInflation);
     }
-  }, [mode, recurringInputs, lumpSumInputs]);
+  }, [mode, recurringInputs, lumpSumInputs, goalInputs, adjustForInflation]);
+
+  // Current annual return rate across all modes
+  const currentAnnualReturn =
+    mode === 'recurring'
+      ? recurringInputs.annualReturn
+      : mode === 'lumpsum'
+      ? lumpSumInputs.annualReturn
+      : goalInputs.annualReturn;
 
   // Handle return rate benchmark preset click
   const handleRatePreset = (rate: number) => {
     if (mode === 'recurring') {
       setRecurringInputs((prev) => ({ ...prev, annualReturn: rate }));
-    } else {
+    } else if (mode === 'lumpsum') {
       setLumpSumInputs((prev) => ({ ...prev, annualReturn: rate }));
+    } else {
+      setGoalInputs((prev) => ({ ...prev, annualReturn: rate }));
     }
   };
 
@@ -265,7 +293,7 @@ export const App: React.FC = () => {
 
               {/* Mode-Specific Input Fields */}
               <div className="space-y-4">
-                {mode === 'recurring' ? (
+                {mode === 'recurring' && (
                   <div
                     id="panel-recurring"
                     role="tabpanel"
@@ -347,7 +375,9 @@ export const App: React.FC = () => {
                       }
                     />
                   </div>
-                ) : (
+                )}
+
+                {mode === 'lumpsum' && (
                   <div
                     id="panel-lumpsum"
                     role="tabpanel"
@@ -411,28 +441,169 @@ export const App: React.FC = () => {
                     />
                   </div>
                 )}
+
+                {mode === 'goal' && (
+                  <div
+                    id="panel-goal"
+                    role="tabpanel"
+                    aria-labelledby="tab-goal"
+                    className="space-y-4"
+                  >
+                    {/* Target Goal Amount */}
+                    <InputGroup
+                      id="goal-target"
+                      label={t.targetGoalAmount}
+                      value={goalInputs.targetAmount}
+                      min={1000}
+                      step={10000}
+                      prefix={currPrefix}
+                      suffix={currSuffix}
+                      icon={Target}
+                      tooltip={t.targetGoalTooltip}
+                      quickPresets={[100000, 250000, 500000, 1000000]}
+                      lang={lang}
+                      theme={theme}
+                      onChange={(val) =>
+                        setGoalInputs((prev) => ({ ...prev, targetAmount: val }))
+                      }
+                    />
+
+                    {/* Initial Starting Balance */}
+                    <InputGroup
+                      id="goal-initial"
+                      label={t.initialStartingPrincipal}
+                      value={goalInputs.initialDeposit}
+                      min={0}
+                      step={1000}
+                      prefix={currPrefix}
+                      suffix={currSuffix}
+                      icon={Layers}
+                      tooltip={t.initialPrincipalTooltip}
+                      quickPresets={[0, 5000, 10000, 50000]}
+                      lang={lang}
+                      theme={theme}
+                      onChange={(val) =>
+                        setGoalInputs((prev) => ({ ...prev, initialDeposit: val }))
+                      }
+                    />
+
+                    {/* Expected Annual Return */}
+                    <InputGroup
+                      id="goal-annual-return"
+                      label={t.expectedAnnualReturn}
+                      value={goalInputs.annualReturn}
+                      min={0}
+                      step={0.1}
+                      suffix="%"
+                      icon={Percent}
+                      tooltip={t.expectedReturnTooltip}
+                      quickPresets={[5, 8, 10, 12]}
+                      lang={lang}
+                      theme={theme}
+                      onChange={(val) =>
+                        setGoalInputs((prev) => ({ ...prev, annualReturn: val }))
+                      }
+                    />
+
+                    {/* Investment Horizon */}
+                    <InputGroup
+                      id="goal-years"
+                      label={t.investmentPeriod}
+                      value={goalInputs.years}
+                      min={1}
+                      max={100}
+                      step={1}
+                      suffix={t.yearsSuffix}
+                      icon={Calendar}
+                      tooltip={t.investmentPeriodTooltip}
+                      quickPresets={[5, 10, 15, 20, 25]}
+                      lang={lang}
+                      theme={theme}
+                      onChange={(val) =>
+                        setGoalInputs((prev) => ({ ...prev, years: val }))
+                      }
+                    />
+                  </div>
+                )}
               </div>
 
-              {/* Quick Benchmark Presets */}
-              <div className="pt-2 border-t border-slate-200 dark:border-slate-800/60">
+              {/* Quick Benchmark Presets, Rule of 72, & Inflation Switch */}
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800/60 space-y-4">
                 <QuickPresets
-                  currentRate={
-                    mode === 'recurring'
-                      ? recurringInputs.annualReturn
-                      : lumpSumInputs.annualReturn
-                  }
+                  currentRate={currentAnnualReturn}
                   onSelectRate={handleRatePreset}
                   t={t}
                 />
+
+                <RuleOf72Card
+                  annualReturn={currentAnnualReturn}
+                  t={t}
+                />
+
+                {/* Inflation Adjustment Switch */}
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/60">
+                  <div className="flex items-center gap-2.5">
+                    <Percent className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <div>
+                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 block">
+                        {t.inflationToggle}
+                      </span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                        {t.inflationTooltip}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={adjustForInflation}
+                    onClick={() => setAdjustForInflation(!adjustForInflation)}
+                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                      adjustForInflation ? 'bg-amber-500' : 'bg-slate-300 dark:bg-slate-700'
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                        adjustForInflation
+                          ? lang === 'ar'
+                            ? '-translate-x-5'
+                            : 'translate-x-5'
+                          : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Right Column: Key Metrics, Growth Chart, and Table (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-6">
+            {/* Goal Mode Highlight Banner */}
+            {mode === 'goal' && (
+              <GoalHighlightBanner
+                targetAmount={goalInputs.targetAmount}
+                requiredMonthlyDeposit={calculationResult.requiredMonthlyDeposit ?? 0}
+                years={goalInputs.years}
+                currency={currency}
+                lang={lang}
+                t={t}
+              />
+            )}
+
             {/* Top Metric Cards */}
             <SummaryCard
               result={calculationResult}
+              currency={currency}
+              lang={lang}
+              t={t}
+            />
+
+            {/* Investing vs Traditional Cash Savings Card */}
+            <InvestingVsCashCard
+              totalInvested={calculationResult.totalInvested}
+              finalBalance={calculationResult.finalBalance}
+              totalInterest={calculationResult.totalInterest}
               currency={currency}
               lang={lang}
               t={t}
@@ -457,6 +628,11 @@ export const App: React.FC = () => {
               t={t}
             />
           </div>
+        </div>
+
+        {/* Beginner's Roadmap & Guide */}
+        <div className="mt-10">
+          <BeginnerGuide t={t} />
         </div>
       </main>
 

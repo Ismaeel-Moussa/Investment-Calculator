@@ -85,10 +85,23 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ result, currency, lang
                 {multiplier.toFixed(2)}x {t.multiplierBadge}
               </span>
             </div>
+
+            {/* Real Purchasing Power after Inflation */}
+            {result.realFinalBalance !== undefined && (
+              <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs">
+                <span className="text-slate-500 dark:text-slate-400 text-[11px]">
+                  {t.todayPurchasingPower}:
+                </span>
+                <span className="font-bold text-amber-700 dark:text-amber-400 font-mono">
+                  {formatCurrency(result.realFinalBalance, false, currency, lang)}
+                </span>
+              </div>
+            )}
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 to-emerald-400" />
         </div>
       </div>
+
 
       {/* Portfolio Composition Ratio Bar */}
       <div className="glass-panel p-4 rounded-xl">

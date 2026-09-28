@@ -36,10 +36,23 @@ export interface Translations {
   calculationStrategy: string;
   recurringMode: string;
   lumpSumMode: string;
+  goalMode: string;
+
+  // Goal Mode Inputs & Display
+  goalBadge: string;
+  targetGoalAmount: string;
+  targetGoalTooltip: string;
+  requiredMonthlyDeposit: string;
+  requiredMonthlyDepositDesc: string;
+  goalAlreadyReached: string;
+  goalPlanSummary: string;
+  perMonth: string;
+
 
   // Recurring Inputs
   monthlyDeposit: string;
   monthlyDepositTooltip: string;
+
   initialStartingPrincipal: string;
   initialPrincipalTooltip: string;
   expectedAnnualReturn: string;
@@ -71,7 +84,7 @@ export interface Translations {
   presetGrowthDesc: string;
   formulaTitle: string;
 
-  // Summary Cards
+  // Summary Cards & Inflation
   totalInvested: string;
   totalInvestedSub: string;
   interestEarned: string;
@@ -80,6 +93,40 @@ export interface Translations {
   multiplierBadge: string;
   principalInvestedRatio: string;
   interestGainsRatio: string;
+  inflationToggle: string;
+  inflationTooltip: string;
+  inflationAdjustedBadge: string;
+  todayPurchasingPower: string;
+
+  // Comparison: Investing vs Cash
+  vsCashTitle: string;
+  vsCashSubtitle: string;
+  cashSavings: string;
+  cashSavingsDesc: string;
+  compoundInvesting: string;
+  compoundInvestingDesc: string;
+  freeMoneyGained: string;
+  cashComparisonInsight: string;
+
+  // Rule of 72 & Notes
+  ruleOf72Title: string;
+  ruleOf72Prefix: string;
+  ruleOf72Suffix: string;
+  shariaNote: string;
+
+  // Beginner's Guide Roadmap
+  beginnerGuideTitle: string;
+  beginnerGuideSubtitle: string;
+  step1Title: string;
+  step1Desc: string;
+  step2Title: string;
+  step2Desc: string;
+  step3Title: string;
+  step3Desc: string;
+  step4Title: string;
+  step4Desc: string;
+  step5Title: string;
+  step5Desc: string;
 
   // Growth Chart
   chartTitle: string;
@@ -101,6 +148,7 @@ export interface Translations {
   colInterestEarned: string;
   colTotalInterest: string;
   colEndingBalance: string;
+  colRealBalance: string;
   yearRowPrefix: string;
   showLess: string;
   viewAll: string;
@@ -119,4 +167,5 @@ export interface Translations {
   pwaInstallNow: string;
   pwaMaybeLater: string;
 }
+
 

@@ -22,6 +22,8 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
   const INITIAL_ROWS = 10;
   const displayedRows = isExpanded ? data : data.slice(0, INITIAL_ROWS);
 
+  const hasInflation = data.some((item) => item.realEndingBalance !== undefined);
+
   return (
     <div className="glass-panel rounded-2xl overflow-hidden">
       {/* Header */}
@@ -88,7 +90,7 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
           <div className="sm:hidden flex items-center justify-between px-4 py-2 bg-emerald-500/5 dark:bg-emerald-950/20 border-b border-slate-200/80 dark:border-slate-800/80 text-[11px] text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1.5 font-medium">
               <ArrowLeftRight className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{lang === 'ar' ? 'اسحب أفقياً لعرض باقي الأعمدة (6 أعمدة)' : 'Swipe horizontally to view all columns'}</span>
+              <span>{lang === 'ar' ? 'اسحب أفقياً لعرض باقي الأعمدة' : 'Swipe horizontally to view all columns'}</span>
             </span>
           </div>
 
@@ -106,6 +108,11 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                   </th>
                   <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left whitespace-nowrap">{t.colTotalInterest}</th>
                   <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-slate-900 dark:text-white whitespace-nowrap">{t.colEndingBalance}</th>
+                  {hasInflation && (
+                    <th className="py-3 px-3 sm:px-4 font-semibold text-right rtl:text-left text-amber-700 dark:text-amber-400 whitespace-nowrap">
+                      {t.colRealBalance}
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200/80 dark:divide-slate-800/40 font-mono text-xs">
@@ -129,12 +136,18 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                     <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-slate-900 dark:text-white font-semibold whitespace-nowrap">
                       {formatCurrency(row.endingBalance, false, currency, lang)}
                     </td>
+                    {hasInflation && (
+                      <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right rtl:text-left text-amber-700 dark:text-amber-400 font-semibold whitespace-nowrap">
+                        {formatCurrency(row.realEndingBalance ?? row.endingBalance, false, currency, lang)}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </>
+
       ) : (
         /* Mobile Cards View */
         <div className="p-3 space-y-2.5 sm:hidden">
@@ -191,8 +204,20 @@ export const YearlyBreakdownTable: React.FC<YearlyBreakdownTableProps> = ({
                     {formatCurrency(row.totalInterest, false, currency, lang)}
                   </span>
                 </div>
+
+                {hasInflation && (
+                  <div className="col-span-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-between">
+                    <span className="text-[10px] font-sans text-amber-800 dark:text-amber-300 font-semibold">
+                      {t.colRealBalance}:
+                    </span>
+                    <span className="text-amber-800 dark:text-amber-300 font-bold">
+                      {formatCurrency(row.realEndingBalance ?? row.endingBalance, false, currency, lang)}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
+
           ))}
         </div>
       )}
