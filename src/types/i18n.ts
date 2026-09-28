@@ -171,6 +171,105 @@ export interface Translations {
   pwaDescriptionOther: string;
   pwaInstallNow: string;
   pwaMaybeLater: string;
+
+  // Navigation
+  navCalculator: string;
+  navGuide: string;
+  navGuideBadge: string;
+
+  // Educational Guide Page
+  guideHeroBadge: string;
+  guideHeroTitle: string;
+  guideHeroSubtitle: string;
+  guideBackToCalc: string;
+  guideTryCalc: string;
+  tableOfContents: string;
+
+  // Guide Section 1: Mindset
+  tocWhatIsInvesting: string;
+  whatIsInvestingTitle: string;
+  whatIsInvestingSubtitle: string;
+  traditionalWorkTitle: string;
+  traditionalWorkBadge: string;
+  traditionalWorkDesc: string;
+  smartInvestingTitle: string;
+  smartInvestingBadge: string;
+  smartInvestingDesc: string;
+  mindsetQuote: string;
+  mindsetQuoteAuthor: string;
+
+  // Guide Section 2: Financial Freedom & Inflation
+  tocFinancialFreedom: string;
+  financialFreedomTitle: string;
+  financialFreedomSubtitle: string;
+  financialFreedomDefBadge: string;
+  financialFreedomDefTitle: string;
+  financialFreedomDefText: string;
+  financialFreedomFormulaLabel: string;
+  financialFreedomFormulaValue: string;
+  financialFreedomPillar1Title: string;
+  financialFreedomPillar1Desc: string;
+  financialFreedomPillar2Title: string;
+  financialFreedomPillar2Desc: string;
+  financialFreedomPillar3Title: string;
+  financialFreedomPillar3Desc: string;
+  canWeReachWithoutInvestingQuestion: string;
+  canWeReachWithoutInvestingAnswer: string;
+  whyCashFailsTitle: string;
+  inflationErosionTitle: string;
+  inflationErosionDesc: string;
+  finiteLifeEnergyTitle: string;
+  finiteLifeEnergyDesc: string;
+  compoundBridgeTitle: string;
+  compoundBridgeDesc: string;
+
+  // Guide Section 3: Video Masterclass
+  tocVideoMasterclass: string;
+  videoSectionTitle: string;
+  videoSectionSubtitle: string;
+  videoBadge: string;
+  videoChannelName: string;
+  videoPresenter: string;
+  videoKeyTakeawaysTitle: string;
+  videoTakeaway1Title: string;
+  videoTakeaway1Desc: string;
+  videoTakeaway2Title: string;
+  videoTakeaway2Desc: string;
+  videoTakeaway3Title: string;
+  videoTakeaway3Desc: string;
+  videoTakeaway4Title: string;
+  videoTakeaway4Desc: string;
+  videoWatchOnYoutube: string;
+
+  // Guide Section 4: Safe Strategy for Beginners
+  tocSafeStrategy: string;
+  safeStrategyTitle: string;
+  safeStrategySubtitle: string;
+  etfCardTitle: string;
+  etfCardBadge: string;
+  etfCardDesc: string;
+  dcaCardTitle: string;
+  dcaCardBadge: string;
+  dcaCardDesc: string;
+  trapsCardTitle: string;
+  trapsCardBadge: string;
+  trapsCardDesc: string;
+
+  // Guide Section 5: The 3 Golden Steps
+  tocThreeSteps: string;
+  threeStepsTitle: string;
+  threeStepsSubtitle: string;
+  threeStep1Title: string;
+  threeStep1Desc: string;
+  threeStep2Title: string;
+  threeStep2Desc: string;
+  threeStep3Title: string;
+  threeStep3Desc: string;
+
+  // Guide Section 6: Interactive CTA
+  guideCtaTitle: string;
+  guideCtaSubtitle: string;
+  guideCtaBtn: string;
 }
 
 

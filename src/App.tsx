@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { DollarSign, Percent, Calendar, Layers, Sparkles, Target, Compass, ArrowDown } from 'lucide-react';
+import { DollarSign, Percent, Calendar, Layers, Sparkles, Target, Compass } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { CalculatorTabs } from './components/CalculatorTabs';
 import { InputGroup } from './components/InputGroup';
@@ -11,6 +11,7 @@ import { InvestingVsCashCard } from './components/InvestingVsCashCard';
 import { RuleOf72Card } from './components/RuleOf72Card';
 import { BeginnerGuide } from './components/BeginnerGuide';
 import { Footer } from './components/Footer';
+import { EducationalGuidePage } from './components/EducationalGuidePage';
 
 const GrowthChart = React.lazy(() =>
   import('./components/GrowthChart').then((m) => ({ default: m.GrowthChart }))
@@ -86,7 +87,29 @@ export const App: React.FC = () => {
   const [adjustForInflation, setAdjustForInflation] = useState<boolean>(false);
   const inflationRate = 3.0; // 3% standard inflation benchmark
 
+  // Navigation View State ('calculator' | 'guide')
+  const [activeView, setActiveView] = useState<'calculator' | 'guide'>(() => {
+    return window.location.hash === '#guide' ? 'guide' : 'calculator';
+  });
 
+  // Listen to browser back/forward and hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#guide') {
+        setActiveView('guide');
+      } else if (window.location.hash === '#calculator' || window.location.hash === '') {
+        setActiveView('calculator');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleSelectView = (v: 'calculator' | 'guide') => {
+    setActiveView(v);
+    window.location.hash = v === 'guide' ? '#guide' : '#calculator';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Synchronize document direction, language, meta tags, and PWA manifest
   useEffect(() => {
@@ -95,12 +118,21 @@ export const App: React.FC = () => {
     document.documentElement.dir = isAr ? 'rtl' : 'ltr';
     localStorage.setItem('investment_calc_lang', lang);
 
-    const pageTitle = isAr
+    let pageTitle = isAr
       ? 'حاسبة الاستثمار - محاكي الأرباح المركبة ونمو الثروة'
       : 'Investment Calculator - Compound Interest & Wealth Simulator';
-    const pageDescription = isAr
+    let pageDescription = isAr
       ? 'احسب العائد على استثماراتك ونمو ثروتك عبر الفائدة المركبة. خطط لأهدافك المالية بمحاكاة تفاعلية، رسوم بيانية دقيقة، وجداول نمو سنوية مفصلة.'
       : 'Calculate the future value of your wealth with compound interest. Live projections, interactive charts, and year-by-year schedules for monthly recurring and lump-sum investments.';
+
+    if (activeView === 'guide') {
+      pageTitle = isAr
+        ? 'دليل الاستثمار والحرية المالية للمبتدئين 2026 - حاسبة الاستثمار'
+        : 'Beginner’s Guide to Investing & Financial Freedom - Investment Calculator';
+      pageDescription = isAr
+        ? 'دليل عملي مبسط للمبتدئين يشرح ما هو الاستثمار، كيف تصل للحرية المالية، التغلب على التضخم، ودليل الفيديو العملي خطوة بخطوة.'
+        : 'Comprehensive beginner guide explaining how investing beats inflation, what financial freedom is, and how to start step by step.';
+    }
 
     // Update document title
     document.title = pageTitle;
@@ -132,7 +164,7 @@ export const App: React.FC = () => {
     if (appleTitleEl) {
       appleTitleEl.setAttribute('content', isAr ? 'حاسبة الاستثمار' : 'Investment Calculator');
     }
-  }, [lang]);
+  }, [lang, activeView]);
 
   // Synchronize document theme class and mobile theme-color meta tag
   useEffect(() => {
@@ -234,48 +266,48 @@ export const App: React.FC = () => {
         onSelectCurrency={setCurrency}
         theme={theme}
         onToggleTheme={toggleTheme}
+        activeView={activeView}
+        onSelectView={handleSelectView}
         t={t}
       />
 
-      {/* Hero Welcome Banner */}
-      <div className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/60 bg-gradient-to-b from-emerald-500/10 via-slate-50 to-slate-50 dark:from-emerald-950/20 dark:via-slate-950 dark:to-slate-950 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-emerald-500/5 blur-3xl pointer-events-none rounded-full" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{t.heroBadge}</span>
+      {activeView === 'calculator' ? (
+        <>
+          {/* Hero Welcome Banner */}
+          <div className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/60 bg-gradient-to-b from-emerald-500/10 via-slate-50 to-slate-50 dark:from-emerald-950/20 dark:via-slate-950 dark:to-slate-950 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-emerald-500/5 blur-3xl pointer-events-none rounded-full" />
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-2">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{t.heroBadge}</span>
+                  </div>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight font-['Cairo',sans-serif]">
+                    {t.heroTitle}
+                  </h1>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400 max-w-2xl">
+                    {t.heroDescription}
+                  </p>
+                </div>
+
+                {/* Jump to Beginner Guide Button */}
+                <div className="shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleSelectView('guide')}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/80 shadow-xs hover:shadow transition-all group active:scale-95 touch-manipulation"
+                  >
+                    <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400 group-hover:rotate-45 transition-transform duration-300" />
+                    <span>{t.heroGuideBtn}</span>
+                  </button>
+                </div>
               </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight font-['Cairo',sans-serif]">
-                {t.heroTitle}
-              </h1>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400 max-w-2xl">
-                {t.heroDescription}
-              </p>
-            </div>
-
-            {/* Jump to Beginner Guide Button */}
-            <div className="shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  document.getElementById('beginner-guide')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-slate-800/80 shadow-xs hover:shadow transition-all group active:scale-95 touch-manipulation"
-              >
-
-                <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400 group-hover:rotate-45 transition-transform duration-300" />
-                <span>{t.heroGuideBtn}</span>
-                <ArrowDown className="w-3.5 h-3.5 text-slate-400 group-hover:translate-y-0.5 transition-transform" />
-              </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Main Content Layout */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+          {/* Main Content Layout */}
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Input Form Controls (5 cols on lg) */}
           <div className="lg:col-span-5 space-y-6">
@@ -633,6 +665,14 @@ export const App: React.FC = () => {
         </div>
 
       </main>
+    </>
+  ) : (
+    <EducationalGuidePage
+      t={t}
+      lang={lang}
+      onNavigateToCalculator={() => handleSelectView('calculator')}
+    />
+  )}
 
       {/* Footer */}
       <Footer t={t} />
