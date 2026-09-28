@@ -89,7 +89,7 @@ export function calculateRecurringInvestment(inputs: RecurringInputs): Calculati
  * Formula: FV = P * (1 + r/n)^(n*t)
  */
 export function calculateLumpSum(inputs: LumpSumInputs): CalculationResult {
-  const { initialPrincipal, annualReturn, years, compoundingFrequency } = inputs;
+  const { initialPrincipal, annualReturn, years, compoundingFrequency = 'annually' } = inputs;
   const safeYears = Math.min(100, Math.max(1, Math.round(years || 1)));
   const r = annualReturn / 100;
   const n = getPeriodsPerYear(compoundingFrequency);

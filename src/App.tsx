@@ -28,7 +28,6 @@ import {
   CalculationMode,
   RecurringInputs,
   LumpSumInputs,
-  CompoundingFrequency,
 } from './types/calculator';
 import { CurrencyCode, Language, ThemeMode } from './types/i18n';
 import { calculateRecurringInvestment, calculateLumpSum } from './utils/finance';
@@ -45,7 +44,7 @@ const DEFAULT_LUMP_SUM: LumpSumInputs = {
   initialPrincipal: 0,
   annualReturn: 10.0,
   years: 20,
-  compoundingFrequency: 'monthly',
+  compoundingFrequency: 'annually',
 };
 
 export const App: React.FC = () => {
@@ -410,37 +409,6 @@ export const App: React.FC = () => {
                         setLumpSumInputs((prev) => ({ ...prev, years: val }))
                       }
                     />
-
-                    {/* Compounding Frequency Toggle */}
-                    <div className="space-y-2 bg-slate-100/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/60">
-                      <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
-                        <Layers className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                        <span>{t.compoundingFrequency}</span>
-                      </label>
-                      <div className="grid grid-cols-3 gap-1.5 pt-1">
-                        {(['annually', 'quarterly', 'monthly'] as CompoundingFrequency[]).map(
-                          (freq) => (
-                            <button
-                              key={freq}
-                              type="button"
-                              onClick={() =>
-                                setLumpSumInputs((prev) => ({
-                                  ...prev,
-                                  compoundingFrequency: freq,
-                                }))
-                              }
-                              className={`py-2 px-2 rounded-lg text-xs font-medium capitalize transition-all ${
-                                lumpSumInputs.compoundingFrequency === freq
-                                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-950/20'
-                                  : 'bg-white dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
-                              }`}
-                            >
-                              {t.frequencies[freq]}
-                            </button>
-                          )
-                        )}
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>

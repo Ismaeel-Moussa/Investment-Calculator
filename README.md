@@ -8,7 +8,7 @@ A modern, responsive, and high-performance **Compound Investment & Wealth Calcul
 
 - 🔄 **Dual Investment Strategies | استراتيجيتان للاستثمار**:
   - **Monthly Recurring (`استثمار شهري دوري`)**: Simulate regular monthly contributions alongside an optional starting principal.
-  - **Lump Sum (`مبلغ إجمالي دفعة واحدة`)**: Calculate returns for a one-time upfront investment with customizable compounding frequencies (Monthly, Quarterly, Annually).
+  - **Lump Sum (`مبلغ إجمالي دفعة واحدة`)**: Calculate returns for a one-time upfront investment with standard annual compound growth.
 - 🌍 **Full Bilingual & RTL Support | دعم كامل للغتين والعربية**:
   - Instant one-click toggle between Arabic (native RTL layout with Cairo & IBM Plex Sans fonts) and English (LTR).
 - 💱 **Multi-Currency Engine | دعم متعدد العملات**:

@@ -13,7 +13,7 @@ export interface LumpSumInputs {
   initialPrincipal: number;
   annualReturn: number;
   years: number;
-  compoundingFrequency: CompoundingFrequency;
+  compoundingFrequency?: CompoundingFrequency;
 }
 
 export interface YearlyBreakdownItem {
