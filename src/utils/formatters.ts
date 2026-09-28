@@ -96,15 +96,18 @@ export function exportToCSV(
   lang: Language = 'en'
 ): void {
   const sym = getCurrencySymbol(currency, lang);
+  const hasInflation = data.some((item) => item.realEndingBalance !== undefined);
+
   const headers =
     lang === 'ar'
       ? [
           'السنة',
           `رصيد البداية (${sym})`,
           `الإيداع السنوي (${sym})`,
-          `أرباح الفائدة (${sym})`,
+          `أرباح النمو (${sym})`,
           `تراكم الأرباح (${sym})`,
           `رصيد النهاية (${sym})`,
+          ...(hasInflation ? [`القيمة بالقوة الشرائية (${sym})`] : []),
         ]
       : [
           'Year',
@@ -113,6 +116,7 @@ export function exportToCSV(
           `Interest Earned (${sym})`,
           `Total Interest to Date (${sym})`,
           `Ending Balance (${sym})`,
+          ...(hasInflation ? [`Real Purchasing Power (${sym})`] : []),
         ];
 
   const rows = data.map((item) => [
@@ -122,9 +126,11 @@ export function exportToCSV(
     item.interestEarned.toFixed(2),
     item.totalInterest.toFixed(2),
     item.endingBalance.toFixed(2),
+    ...(hasInflation ? [(item.realEndingBalance ?? item.endingBalance).toFixed(2)] : []),
   ]);
 
   const csvContent = [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+
 
   // Add UTF-8 BOM so Excel opens Arabic properly
   const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
