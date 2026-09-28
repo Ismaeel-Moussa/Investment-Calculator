@@ -1,4 +1,4 @@
-export type CalculationMode = 'recurring' | 'lumpsum';
+export type CalculationMode = 'recurring' | 'lumpsum' | 'goal';
 
 export type CompoundingFrequency = 'annually' | 'monthly' | 'quarterly' | 'daily';
 
@@ -16,6 +16,13 @@ export interface LumpSumInputs {
   compoundingFrequency?: CompoundingFrequency;
 }
 
+export interface GoalInputs {
+  targetAmount: number;
+  initialDeposit: number;
+  annualReturn: number;
+  years: number;
+}
+
 export interface YearlyBreakdownItem {
   year: number;
   startingBalance: number;
@@ -23,6 +30,7 @@ export interface YearlyBreakdownItem {
   interestEarned: number;
   totalInterest: number;
   endingBalance: number;
+  realEndingBalance?: number;
 }
 
 export interface CalculationResult {
@@ -32,4 +40,7 @@ export interface CalculationResult {
   returnPercentage: number;
   multiplier: number;
   breakdown: YearlyBreakdownItem[];
+  requiredMonthlyDeposit?: number;
+  realFinalBalance?: number;
 }
+
